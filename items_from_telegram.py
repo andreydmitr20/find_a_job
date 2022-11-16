@@ -64,13 +64,13 @@ class ItemsFromTelegram():
                                                    reverse=True,
                                                    offset_date=this_date):
             if isinstance(msg.sender_id, int) and isinstance(msg.text, str):
-                text = msg.text
+                text = msg.text # .replace('\n',' ')
 
                 if (jobs_criteria is None):
                     print((str(msg), str(msg.sender_id), text[50]))
                 elif jobs_criteria.criteria_function(text.lower()):
                     if self.store_item(jobs_criteria, this_date, msg, text):
-                        print((str(msg.id), str(msg.sender_id), text[:50]))
+                        print('\nACCEPTED >>>>>>>>>>>>>>>>>>>>',str(msg.id), str(msg.sender_id), text)
 
     def store_item(self,
                    jobs_criteria: JobsCriteria,

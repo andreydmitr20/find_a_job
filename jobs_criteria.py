@@ -42,6 +42,7 @@ class JobsCriteria(Jobs):
     def find_any_keyword(text: str, key_list: list) -> bool:
         for key in key_list:
             if text.find(key) >= 0:
+                print('\nDROPPED ---------------->',key,':',text)
                 return True
         return False
 
