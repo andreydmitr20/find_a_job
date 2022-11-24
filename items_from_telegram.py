@@ -58,20 +58,23 @@ class ItemsFromTelegram():
         except:
             # no msgs
             this_max_id = 0
+        print(f'^^^^^^^^^^^^^^Channel: {this_channel}')
+        try:
+            for msg in self.get_client().iter_messages(this_channel,
+                                                       max_id=this_max_id,
+                                                       reverse=True,
+                                                       offset_date=this_date):
+                if isinstance(msg.sender_id, int) and isinstance(msg.text, str):
+                    text = msg.text # .replace('\n',' ')
 
-        for msg in self.get_client().iter_messages(this_channel,
-                                                   max_id=this_max_id,
-                                                   reverse=True,
-                                                   offset_date=this_date):
-            if isinstance(msg.sender_id, int) and isinstance(msg.text, str):
-                text = msg.text # .replace('\n',' ')
-
-                if (jobs_criteria is None):
-                    print((str(msg), str(msg.sender_id), text[50]))
-                elif jobs_criteria.criteria_function(text.lower()):
-                    if self.store_item(jobs_criteria, this_date, msg, text):
-                        print('\nACCEPTED >>>>>>>>>>>>>>>>>>>>',str(msg.id), str(msg.sender_id), text)
-
+                    if (jobs_criteria is None):
+                        print((str(msg), str(msg.sender_id), text[50]))
+                    elif jobs_criteria.criteria_function(text.lower()):
+                        if self.store_item(jobs_criteria, this_date, msg, text):
+                            print('\nACCEPTED >>>>>>>>>>>>>>>>>>>>',str(msg.id), str(msg.sender_id), text)
+        except Exception as e:
+            print(e)
+            print(f'!!! Wrong channel {this_channel}')
     def store_item(self,
                    jobs_criteria: JobsCriteria,
                    this_date,
