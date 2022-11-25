@@ -65,16 +65,20 @@ class ItemsFromTelegram():
                                                        reverse=True,
                                                        offset_date=this_date):
                 if isinstance(msg.sender_id, int) and isinstance(msg.text, str):
-                    text = msg.text # .replace('\n',' ')
+                    text = msg.text  # .replace('\n',' ')
 
                     if (jobs_criteria is None):
                         print((str(msg), str(msg.sender_id), text[50]))
                     elif jobs_criteria.criteria_function(text.lower()):
-                        if self.store_item(jobs_criteria, this_date, msg, text):
-                            print('\nACCEPTED >>>>>>>>>>>>>>>>>>>>',str(msg.id), str(msg.sender_id), text)
+                        if self.store_item(jobs_criteria, this_date, msg, f'{this_channel}: {text}'):
+                            print('\nACCEPTED >>>>>>>>>>>>>>>>>>>>',
+                                  str(msg.id), str(msg.sender_id), f'{this_channel}: {text}')
         except Exception as e:
             print(e)
             print(f'!!! Wrong channel {this_channel}')
+            self.store_item(jobs_criteria, this_date, None,
+                            f'{this_channel} is WRONG')
+
     def store_item(self,
                    jobs_criteria: JobsCriteria,
                    this_date,
@@ -85,15 +89,23 @@ class ItemsFromTelegram():
         jobs = jobs_criteria.get_jobs()
         if this_date not in jobs.keys():
             jobs[this_date] = []
+
         # check if found same msg
-        for item_dict in jobs[this_date]:
-            if item_dict['id'] == str(message.id) and \
-                    item_dict['sender_id'] == str(message.sender_id):
-                # skip
-                return False
+        if not (message is None):
+            message_id = str(message.id)
+            message_sender_id = str(message.sender_id)
+            for item_dict in jobs[this_date]:
+                if item_dict['id'] == message_id and \
+                        item_dict['sender_id'] == message_sender_id:
+                    # skip
+                    return False
+        else:
+            message_id = datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d%H%M%S%f')
+            message_sender_id = message_id
+
         jobs[this_date].append({
-            'id': str(message.id),
-            'sender_id': str(message.sender_id),
+            'id': message_id,
+            'sender_id': message_sender_id,
             'text_lower': text,
             'price': '0',
             'url': '',
@@ -126,7 +138,8 @@ class ItemsFromTelegram():
             with open(file_name, 'r') as file:
                 url = f"https://api.telegram.org/bot{self.__credentials['bot_token']}/sendDocument"
                 # print(
-                requests.post(url, data={'chat_id': self.__credentials['group_id']}, files={'document': file})
+                requests.post(url, data={'chat_id': self.__credentials['group_id']}, files={
+                              'document': file})
                 # )
         except Exception as e:
             print(e)

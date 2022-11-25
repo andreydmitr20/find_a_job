@@ -25,8 +25,8 @@ if __name__ == "__main__":
 
     # save jobs for yesterday to file
     file_name = jobs_criteria.get_profile_name() + '_' + \
-                datetime.datetime.strftime(yesterday, '%Y-%m-%d') + \
-                '.csv'
+        datetime.datetime.strftime(yesterday, '%Y-%m-%d') + \
+        '.csv'
 
     jobs_criteria.save_data_for_date_to_file(
         yesterday,

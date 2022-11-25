@@ -1,7 +1,10 @@
 private_info.json
 session.session
-.idea/*
+.idea/
 andrei_jobs_data.csv
 Jenkinsfile
-
+*.pyc
+.vscode/
+__pycache__/
+.devcontainer/
 
