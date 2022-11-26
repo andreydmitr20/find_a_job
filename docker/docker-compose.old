@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  my_container:
+    image: python_find_a_job:lts
+    stdin_open: true # docker run -i
+    #tty: true        # docker run -t
+    container_name: find_a_job
+    volumes:
+      - ~/.PYTHON/find_a_job:/opt/find_a_job
+
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: Instax22never
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:

@@ -3,4 +3,3 @@ USER root
 RUN pip3 install requests telethon
 RUN apt-get update
 RUN apt-get --assume-yes install git
-
