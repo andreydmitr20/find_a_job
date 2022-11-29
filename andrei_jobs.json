@@ -2,6 +2,7 @@
   "profile name": "andrei_jobs",
   "min text length": 100,
   "stop phrases": [
+    "tech lead",
     "middle",
     "senior",
     "от 2х",

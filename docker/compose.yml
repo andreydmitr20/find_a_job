@@ -1,6 +1,7 @@
 version: '3.3'
 services:
   my_container:
+    network_mode: "host"
     image: python_find_a_job:lts
     stdin_open: true # docker run -i
     tty: true        # docker run -t
@@ -9,6 +10,7 @@ services:
       - ~/.PYTHON/find_a_job:/opt/find_a_job
 
   mongodb_container:
+    network_mode: "host"
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
