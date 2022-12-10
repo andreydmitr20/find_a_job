@@ -106,7 +106,7 @@ class ItemsFromTelegram():
         jobs[this_date].append({
             'id': message_id,
             'sender_id': message_sender_id,
-            'text_lower': text,
+            'text_lower': '\n\n'+text,
             'price': '0',
             'url': '',
             'email': '',

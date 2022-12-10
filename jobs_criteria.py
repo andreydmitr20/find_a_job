@@ -10,6 +10,16 @@ class JobsCriteria(Jobs):
         self._profile_file_name = self.get_profile_name() + '.json'
         self._profile = None
         self.load_profile()
+        self.prepare_profile()
+
+    def prepare_profile(self):
+        profile = self.get_profile()
+        # lower   "stop phrases"
+        stop_phrases = profile["stop phrases"]
+        profile["stop phrases"] = [
+            stop_phrases[i].lower()
+            for i in range(len(stop_phrases))
+        ]
 
     def set_profile(self, profile):
         self._profile
@@ -42,7 +52,7 @@ class JobsCriteria(Jobs):
     def find_any_keyword(text: str, key_list: list) -> bool:
         for key in key_list:
             if text.find(key) >= 0:
-                print('\nDROPPED ---------------->',key,':',text)
+                print('\nDROPPED ---------------->', key, ':', text)
                 return True
         return False
 
