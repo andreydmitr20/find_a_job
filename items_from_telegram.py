@@ -100,13 +100,14 @@ class ItemsFromTelegram():
                     # skip
                     return False
         else:
-            message_id = datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d%H%M%S%f')
+            message_id = datetime.datetime.strftime(
+                datetime.datetime.now(), '%Y%m%d%H%M%S%f')
             message_sender_id = message_id
 
         jobs[this_date].append({
             'id': message_id,
             'sender_id': message_sender_id,
-            'text_lower': '\n\n'+text,
+            'text_lower': '\n\n'+text + '\n\n',
             'price': '0',
             'url': '',
             'email': '',
